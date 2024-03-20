@@ -1,4 +1,9 @@
-Here is a simple flow chart:
+# RyC Banking Application JAVA
+
+
+## Main Class
+The main class for running the Java application is located at the following path:
+src/application/Main.java
 
 ```mermaid
 classDiagram
