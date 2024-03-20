@@ -2,6 +2,7 @@ package application;
 
 import exceptions.ActionsExceptions;
 import exceptions.OptionMenuException;
+import services.InputManager;
 import services.OptionMenu;
 
 import java.util.Locale;
@@ -13,19 +14,12 @@ public class Main {
     public static void main(String[] args) throws ActionsExceptions, OptionMenuException {
 
         Locale.setDefault(Locale.US);
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = InputManager.getScanner();
 
         boolean running = true;
         while (running) {
             OptionMenu optionMenu = new OptionMenu(scanner);
-            Integer actionChoice = optionMenu.runMenu(scanner);
-
-            if (actionChoice == -1) {
-                endRun();
-            }
-
-            optionMenu.runAction(actionChoice);
-
+            optionMenu.runMenu();
 
             String keepRunning = null;
             while (!Objects.equals(keepRunning, "N") && !Objects.equals(keepRunning, "Y")) {

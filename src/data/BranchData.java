@@ -8,6 +8,12 @@ import java.util.List;
 public class BranchData {
     static public List<Branch> branches = new ArrayList<>();
 
+    static {
+        branches.add(new Branch("BEBEDOURO", "SP"));
+        branches.add(new Branch("TAIUVA", "SP"));
+        branches.add(new Branch("UBERABA", "MG"));
+    }
+
     static public List<Branch> getAllBranches() {
         return branches;
     }
@@ -25,12 +31,14 @@ public class BranchData {
         return false;
     }
 
-//    public static boolean containsEqual(Branch newBranch) {
-//        for (Branch branch : branches) {
-//            if (branch.equals(newBranch)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    static public Branch getBranch(String code) {
+        for (Branch branch : branches) {
+            if (branch.getCode().equals(code)) {
+                return branch;
+            }
+        }
+        return null;
+    }
+
+
 }

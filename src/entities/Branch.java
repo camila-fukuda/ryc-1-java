@@ -23,9 +23,9 @@ public class Branch {
         if (!validState(state)) {
             throw new IllegalArgumentException("State abbreviation must be exactly 2 characters long.");
         }
-        this.city = city;
+        this.city = city.toUpperCase();
         this.state = state.toUpperCase();
-        this.code = getRandomCode();
+        this.code = getRandomCode().toUpperCase();
     }
 
     private static String generateRandomCode() {
@@ -78,8 +78,8 @@ public class Branch {
 
     @Override
     public String toString() {
-        return "Branch{" +
-                "city='" + city + '\'' +
+        return code +
+                " - Branch {city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", code='" + code + '\'' +
                 '}';

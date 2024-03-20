@@ -1,26 +1,23 @@
 package services;
 
-import exceptions.ActionsExceptions;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class OptionMenu {
     private final Scanner scanner;
-    private final Actions actions;
 
     public OptionMenu(Scanner scan) {
         scanner = scan;
-        actions = new Actions(scan);
+
     }
 
-    public void runAction(int actionIndex) throws ActionsExceptions {
-        actions.executeAction(actionIndex);
+    public void runAction(int actionIndex) {
+        Actions.executeAction(actionIndex);
     }
 
-    public Integer runMenu(Scanner scanner) {
-        List<String> actionsList = new ArrayList<>(actions.getActionsList());
+    public void runMenu() {
+        List<String> actionsList = new ArrayList<>(Actions.getActionsList());
         System.out.println("\n----------------------------------");
         System.out.println("WELCOME TO THE BANKING SYSTEM!");
         System.out.println("----------------------------------\n");
@@ -34,28 +31,24 @@ public class OptionMenu {
 
         int actionChoice = -1;
 
-        while (actionChoice < 0) {
+        while (true) {
             System.out.print("\n -> Type the number of the desired action: ");
-
-            actionChoice = scanner.nextInt() - 1;
-
-            if (actionChoice < actionsList.size()) {
-                System.out.println("----------------------------------\n");
-                System.out.printf("\nYou selected Option %d: %s\n", actionChoice + 1, actionsList.get(actionChoice).toUpperCase());
-
-            } else {
-                System.out.println("\nInvalid Option! Type N to close the menu or any other key to try again.");
-                String continueChoice = scanner.next().toUpperCase();
-
-                if (continueChoice.equals("N")) {
-
-                    return -1;
+            try {
+                actionChoice = Integer.parseInt(scanner.nextLine());
+                if (actionChoice <= 0 || actionChoice > actionsList.size()) {
+                    System.out.println("\nInvalid Option! Please enter a number between 1 and " + actionsList.size() + ".");
+                    continue;
                 }
-                actionChoice = -1;
+                actionChoice -= 1;
+                System.out.println("----------------------------------\n");
+                System.out.printf("\nYou selected Option %d: %s\n", actionChoice + 1, actionsList.get(actionChoice).toUpperCase() + "\n");
+                this.runAction(actionChoice);
+
+                break; // Exit the loop if a valid choice is made
+            } catch (NumberFormatException e) {
+                System.out.println("\nInvalid Option! Please enter a valid number.");
             }
         }
-
-        return actionChoice;
     }
-    
+
 }
