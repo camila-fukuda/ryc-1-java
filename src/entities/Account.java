@@ -23,6 +23,8 @@ public interface Account {
 
     void setLimit(double amount);
 
+    String getCode();
+
 //  -transactionsHistory()
 //  -equals()
 //  -hasCode()

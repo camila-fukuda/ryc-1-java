@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ryv-banking.iml" filepath="$PROJECT_DIR$/ryv-banking.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ryc-banking.iml" filepath="$PROJECT_DIR$/ryc-banking.iml" />
     </modules>
   </component>
 </project>

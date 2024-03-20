@@ -1,9 +1,9 @@
 package entities;
 
 public abstract class AbstractAccount implements Account {
-    final private String type;
-    final private String accCode;
-    final private Customer customer;
+    final protected String type;
+    final protected String accCode;
+    final protected Customer customer;
     private Branch branch;
     private double balance;
     private double limit;
