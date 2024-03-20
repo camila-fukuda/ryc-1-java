@@ -2,10 +2,19 @@ package entities;
 
 import data.BranchData;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
 public class Customer {
+    private static final Map<String, String> LABEL_TO_ATTRIBUTE = new HashMap<>();
+
+    static {
+        LABEL_TO_ATTRIBUTE.put("Name", "name");
+        LABEL_TO_ATTRIBUTE.put("Document", "document");
+    }
+
     private final String name;
     private final String document;
     private final String code;
@@ -28,6 +37,10 @@ public class Customer {
         Random random = new Random();
         int randomNumber = random.nextInt(100000);
         return "CS-" + String.format("%05d", randomNumber);
+    }
+
+    public static Map<String, String> getLabelMap() {
+        return LABEL_TO_ATTRIBUTE;
     }
 
     @Override

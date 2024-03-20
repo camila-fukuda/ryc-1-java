@@ -2,13 +2,22 @@ package entities;
 
 import data.BranchData;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
 public class Branch {
+    private static final Map<String, String> LABEL_TO_ATTRIBUTE = new HashMap<>();
+
+    static {
+        LABEL_TO_ATTRIBUTE.put("City", "city");
+        LABEL_TO_ATTRIBUTE.put("State", "state");
+    }
+
+    private final String city;
     private final String state;
-    private String city;
-    private String code;
+    private final String code;
 
     public Branch(String city, String state) throws IllegalArgumentException {
         if (!validState(state)) {
@@ -37,6 +46,10 @@ public class Branch {
         return code;
     }
 
+    public static Map<String, String> getLabelMap() {
+        return LABEL_TO_ATTRIBUTE;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,9 +67,6 @@ public class Branch {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
 
     public String getState() {
         return state;
@@ -64,10 +74,6 @@ public class Branch {
 
     public String getCode() {
         return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     @Override

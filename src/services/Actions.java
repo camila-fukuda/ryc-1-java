@@ -4,6 +4,7 @@ import data.AccountData;
 import data.BranchData;
 import data.CustomerData;
 import entities.Branch;
+import entities.Customer;
 import exceptions.ActionsExceptions;
 
 import java.lang.reflect.Method;
@@ -55,28 +56,36 @@ public class Actions {
     }
 
     public void createCustomer() {
-        System.out.println("createCustomer");
+        InputManager im = new InputManager(scanner);
+
+        Customer customer = im.readInput(Customer.class, Customer.getLabelMap());
+        System.out.println("New Customer created: " + customer);
     }
 
     public void createBranch() {
+        InputManager im = new InputManager(scanner);
 
-        Branch newBranch = null;
-        System.out.println("\nCREATING BRANCH -> Type the required data:\n");
+        Branch branch = im.readInput(Branch.class, Branch.getLabelMap());
+        System.out.println("New Branch created: " + branch);
 
-        if (newBranch != null) {
-            System.out.println("\nThere's already :\n");
-        }
 
-        System.out.print("Enter the city name: ");
-        String cityName = scanner.next();
-
-        String state;
-        do {
-            System.out.print("Enter the state abbreviation (2 letters): ");
-            state = scanner.next();
-        } while (!Branch.validState(state));
-
-        newBranch = new Branch(cityName, state);
+//        Branch newBranch = null;
+//        System.out.println("\nCREATING BRANCH -> Type the required data:\n");
+//
+//        if (newBranch != null) {
+//            System.out.println("\nThere's already :\n");
+//        }
+//
+//        System.out.print("Enter the city name: ");
+//        String cityName = scanner.next();
+//
+//        String state;
+//        do {
+//            System.out.print("Enter the state abbreviation (2 letters): ");
+//            state = scanner.next();
+//        } while (!Branch.validState(state));
+//
+//        newBranch = new Branch(cityName, state);
     }
 
     public void withdraw() {
