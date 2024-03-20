@@ -1,5 +1,8 @@
 # RyC Banking Application JAVA
 
+## APPLICATION IN PROGRESS
+Please note that this application is still under development and is not yet finalized. Certain features may be incomplete or subject to change.
+
 
 ## Main Class
 The main class for running the Java application is located at the following path:
