@@ -1,6 +1,7 @@
 package entities;
 
 public interface Account {
+
     void withdraw(double amount);
 
     void deposit(double amount);
@@ -9,11 +10,11 @@ public interface Account {
 
     String getAccCode();
 
-    String getBranch();
+    Branch getBranch();
 
     void setBranch(Branch branch);
 
-    String getCustomer();
+    Customer getCustomer();
 
     double getBalance();
 

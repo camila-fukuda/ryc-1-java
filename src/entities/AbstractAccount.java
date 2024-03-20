@@ -1,16 +1,20 @@
 package entities;
 
+import java.util.Objects;
+
 public abstract class AbstractAccount implements Account {
+
     final protected String type;
-    final protected String accCode;
+    final protected String code;
     final protected Customer customer;
     private Branch branch;
     private double balance;
     private double limit;
 
     public AbstractAccount(String type, String accCode, Branch branch, Customer customer, double balance, double limit) {
+        validateCreation(type, accCode, customer, branch);
         this.type = type;
-        this.accCode = accCode;
+        this.code = accCode;
         this.branch = branch;
         this.customer = customer;
         this.balance = balance;
@@ -18,19 +22,32 @@ public abstract class AbstractAccount implements Account {
     }
 
     public AbstractAccount(String type, String accCode, Customer customer, Branch branch) {
+        validateCreation(type, accCode, customer, branch);
         this.type = type;
-        this.accCode = accCode;
+        this.code = accCode;
         this.branch = branch;
         this.customer = customer;
         this.balance = 0;
         this.limit = 0;
     }
 
+    private void validateCreation(String type, String accCode, Customer customer, Branch branch) {
+        if (branch == null) {
+            throw new IllegalArgumentException("The branch is not valid.");
+        }
+        if (customer == null) {
+            throw new IllegalArgumentException("The customer is not valid");
+        }
+        if (accCode == null) {
+            throw new IllegalArgumentException("The account code is required");
+        }
+    }
+
     @Override
     public String toString() {
         return "AbstractAccount{" +
                 "type='" + type + '\'' +
-                ", accCode='" + accCode + '\'' +
+                ", accCode='" + code + '\'' +
                 ", customer=" + customer +
                 ", branch=" + branch +
                 '}';
@@ -54,19 +71,19 @@ public abstract class AbstractAccount implements Account {
     }
 
     public String getAccCode() {
-        return accCode;
+        return code;
     }
 
-    public String getBranch() {
-        return branch.toString();
+    public Branch getBranch() {
+        return branch;
     }
 
     public void setBranch(Branch branch) {
         this.branch = branch;
     }
 
-    public String getCustomer() {
-        return customer.toString();
+    public Customer getCustomer() {
+        return customer;
     }
 
     public double getBalance() {
@@ -77,6 +94,19 @@ public abstract class AbstractAccount implements Account {
         balance = amount;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractAccount that = (AbstractAccount) o;
+        return Objects.equals(getType(), that.getType()) && Objects.equals(getCustomer(), that.getCustomer());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getType(), getCustomer());
+    }
+
     public double getLimit() {
         return limit;
     }
@@ -85,9 +115,9 @@ public abstract class AbstractAccount implements Account {
         limit = amount;
     }
 
-//  -transactionsHistory()
-//  -equals()
-//  -hasCode()
+    public void transactions() {
+        System.out.println("transactions");
+    }
 
 
 }

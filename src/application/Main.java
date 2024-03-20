@@ -1,7 +1,5 @@
 package application;
 
-import exceptions.ActionsExceptions;
-import exceptions.OptionMenuException;
 import services.InputManager;
 import services.OptionMenu;
 
@@ -11,7 +9,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws ActionsExceptions, OptionMenuException {
+    public static void main(String[] args) {
 
         Locale.setDefault(Locale.US);
         Scanner scanner = InputManager.getScanner();
@@ -25,7 +23,7 @@ public class Main {
             while (!Objects.equals(keepRunning, "N") && !Objects.equals(keepRunning, "Y")) {
 
                 System.out.println("\n\nType Y to execute another action or N to close the menu.");
-                keepRunning = scanner.next().toUpperCase();
+                keepRunning = scanner.nextLine().toUpperCase();
 
                 if (!Objects.equals(keepRunning, "N") && !Objects.equals(keepRunning, "Y")) {
                     System.out.println("\nINVALID OPTION!");

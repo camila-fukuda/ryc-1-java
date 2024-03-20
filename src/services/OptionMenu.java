@@ -1,5 +1,7 @@
 package services;
 
+import exceptions.OptionMenuException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -47,6 +49,8 @@ public class OptionMenu {
                 break; // Exit the loop if a valid choice is made
             } catch (NumberFormatException e) {
                 System.out.println("\nInvalid Option! Please enter a valid number.");
+            } catch (OptionMenuException e) {
+                System.out.println("\nPress enter to continue.");
             }
         }
     }

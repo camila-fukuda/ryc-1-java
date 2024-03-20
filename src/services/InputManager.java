@@ -1,6 +1,6 @@
 package services;
 
-import java.lang.reflect.Constructor;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -14,34 +14,15 @@ public class InputManager {
         return scanner;
     }
 
-    public static <T> T readInput(Class<T> clazz, Map<String, String> labelMap, String actionName) {
-        while (true) {
-            try {
-                Class<?>[] parameterTypes = new Class<?>[labelMap.size()];
-                Object[] args = new Object[labelMap.size()];
+    public static Map<String, String> readInput(Map<String, String> labelMap) {
+        Map<String, String> userInput = new HashMap<>();
 
-                int index = labelMap.entrySet().size() - 1;
-                for (Map.Entry<String, String> entry : labelMap.entrySet()) {
-                    parameterTypes[index] = String.class;
-                    System.out.println("-> Enter value for " + entry.getKey() + ":");
-                    args[index] = scanner.nextLine();
-                    index--;
-                }
-
-                Constructor<T> constructor = clazz.getDeclaredConstructor(parameterTypes);
-                return constructor.newInstance(args);
-            } catch (Exception e) {
-                if (e.getCause() instanceof IllegalArgumentException) {
-                    System.out.println("------------------------------");
-                    System.out.println("ERROR - " + e.getCause().getMessage()); // Print the error message
-                    System.out.println("------------------------------");
-                    System.out.println(actionName.toUpperCase() + " - Please enter the input again:/n");
-                } else {
-                    e.printStackTrace();
-                    return null;
-                }
-            }
+        for (Map.Entry<String, String> entry : labelMap.entrySet()) {
+            System.out.println("-> Enter value for " + entry.getKey() + ":");
+            userInput.put(entry.getKey(), scanner.nextLine());
         }
+
+        return userInput;
     }
 
 

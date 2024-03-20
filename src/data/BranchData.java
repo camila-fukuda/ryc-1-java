@@ -9,12 +9,12 @@ public class BranchData {
     static public List<Branch> branches = new ArrayList<>();
 
     static {
-        branches.add(new Branch("BEBEDOURO", "SP"));
-        branches.add(new Branch("TAIUVA", "SP"));
-        branches.add(new Branch("UBERABA", "MG"));
+        branches.add(new Branch("BEBEDOURO", "SP", "BR-000001"));
+        branches.add(new Branch("TAIUVA", "SP", "BR-000002"));
+        branches.add(new Branch("UBERABA", "MG", "BR-000003"));
     }
 
-    static public List<Branch> getAllBranches() {
+    static public List<Branch> getAll() {
         return branches;
     }
 
@@ -22,22 +22,11 @@ public class BranchData {
         branches.add(branch);
     }
 
-    static public boolean containsCode(String code) {
-        for (Branch branch : branches) {
-            if (branch.getCode().equals(code)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     static public Branch getBranch(String code) {
-        for (Branch branch : branches) {
-            if (branch.getCode().equals(code)) {
-                return branch;
-            }
-        }
-        return null;
+        return branches.stream()
+                .filter(branch -> branch.getCode().equals(code))
+                .findFirst()
+                .orElse(null);
     }
 
 

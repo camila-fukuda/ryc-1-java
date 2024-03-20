@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Actions {
 
-    private static final List<String> SERVICE_CLASS_LIST = List.of("BranchServices", "CustomerServices");
+    private static final List<String> SERVICE_CLASS_LIST = List.of("BranchServices", "CustomerServices", "AccountServices");
     private static final Map<String, String> ACTION_TO_SERVICE_CLASS_NAME = new LinkedHashMap<>();
     private static final List<String> ACTION_LABELS = new ArrayList<>();
 

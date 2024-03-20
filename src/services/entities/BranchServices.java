@@ -5,10 +5,7 @@ import entities.Branch;
 import services.InputManager;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BranchServices {
     private static final Map<String, String> LABEL_TO_METHOD = new LinkedHashMap<>();
@@ -16,7 +13,7 @@ public class BranchServices {
     static {
         LABEL_TO_METHOD.put("List Branches", "listBranches");
         LABEL_TO_METHOD.put("Create Branch", "createBranch");
-        LABEL_TO_METHOD.put("Find Branch by Code", "findAccByCode");
+        LABEL_TO_METHOD.put("Find Branch by Code", "findBranchByCode");
     }
 
     private static String getLabel(String value) {
@@ -29,7 +26,7 @@ public class BranchServices {
     }
 
     private static void listBranches() {
-        List<Branch> branches = BranchData.getAllBranches();
+        List<Branch> branches = BranchData.getAll();
         if (branches.isEmpty()) {
             System.out.println("\n No branches created.");
         } else {
@@ -38,34 +35,58 @@ public class BranchServices {
         }
     }
 
-
     private static void createBranch() {
         String actionLabel = getLabel("createBranch");
+        Map<String, String> fieldLabelToName = Branch.getFieldLabelToName();
+        Map<String, String> userInput;
 
-        Map<String, String> branchLabelMap = Branch.getLabelMap();
-        Branch newBranch = InputManager.readInput(Branch.class, branchLabelMap, actionLabel);
+        while (true) {
+            userInput = InputManager.readInput(fieldLabelToName);
+            try {
+                String city = userInput.get("City");
+                String state = userInput.get("State");
+                String code = getRandomCode();
 
-        if (newBranch != null) {
-            System.out.println("\nSUCCESS! New Branch created! " + newBranch);
-            BranchData.add(newBranch);
-        } else {
-            System.out.println("Branch creation failed.");
+                Branch newBranch = new Branch(city, state, code);
+                isDuplicate(newBranch);
+                System.out.println("\nSUCCESS! New Branch created! " + newBranch);
+                BranchData.add(newBranch);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("------------------------------");
+                System.out.println("ERROR - " + e.getMessage()); // Print the error message
+                System.out.println("------------------------------");
+                System.out.println(actionLabel.toUpperCase() + " - Please enter the input again:/n");
+            } catch (Exception e) {
+                System.out.println("Branch creation failed. Please try again.");
+                e.printStackTrace();
+            }
         }
     }
 
     private static void findBranchByCode() {
-        String actionLabel = getLabel("findBranchByCode");
-        Map<String, String> branchLabelMap = Map.of("Code", "Code");
-        Branch newBranch = InputManager.readInput(Branch.class, branchLabelMap, actionLabel);
+        Map<String, String> fieldLabelToName = Map.of("Code", "code");
+        Map<String, String> userInput;
 
-        if (newBranch != null) {
-            System.out.println("\nSUCCESS! New Branch created! " + newBranch);
-            BranchData.add(newBranch);
-        } else {
-            System.out.println("Branch creation failed.");
+        userInput = InputManager.readInput(fieldLabelToName);
+
+        try {
+            String code = userInput.get("Code");
+            Branch branch = BranchData.getBranch(code);
+            if (branch != null) {
+                System.out.println("\nBRANCH FOUND:");
+                System.out.println(branch);
+            } else {
+                System.out.println("\nBRANCH NOT FOUND: the branch does not exists or the provided code is wrong.");
+            }
+        } catch (Exception e) {
+            System.out.println("An error happened while searching for the branch.");
+            e.printStackTrace();
         }
 
+
     }
+
 
     public static List<String> getAvailableServices() {
         return new ArrayList<>(LABEL_TO_METHOD.keySet());
@@ -76,14 +97,36 @@ public class BranchServices {
         if (methodName != null) {
             try {
                 Method method = BranchServices.class.getDeclaredMethod(methodName);
-                method.setAccessible(true); // Allow access to private methods
+                method.setAccessible(true);
                 method.invoke(null);
             } catch (Exception e) {
-                e.printStackTrace(); // Handle any exceptions
+                e.printStackTrace();
             }
         } else {
             System.out.println("Action not found: " + actionLabel);
         }
+    }
+
+    private static void isDuplicate(Branch newBranch) {
+        for (Branch branch : BranchData.getAll()) {
+            if (newBranch.equals(branch)) {
+                throw new IllegalArgumentException("A branch with the same city and state already exists.");
+            }
+        }
+    }
+
+    private static String getRandomCode() {
+        String code = generateRandomCode();
+        while (BranchData.getBranch(code) != null) {
+            code = generateRandomCode();
+        }
+        return code;
+    }
+
+    private static String generateRandomCode() {
+        Random random = new Random();
+        int randomNumber = random.nextInt(100000);
+        return "BR-" + String.format("%05d", randomNumber);
     }
 
 
