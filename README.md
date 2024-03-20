@@ -5,6 +5,19 @@
 The main class for running the Java application is located at the following path:
 src/application/Main.java
 
+To run the application, you can execute the Main class.
+
+## Usage
+To use the application, follow these steps:
+1. Ensure you have Java installed on your system.
+2. Navigate to the directory containing the Main.java file.
+3. Compile the Java files if necessary.
+4. Run the Main class using the `java` command.
+
+## Contributors
+- Camila Fukuda
+
+## Class Diagram
 ```mermaid
 classDiagram
     Account <|-- AccountAbstract : implements
