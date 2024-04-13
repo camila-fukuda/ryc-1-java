@@ -6,7 +6,7 @@ public interface Account {
 
     void deposit(double amount);
 
-    String getType();
+    AbstractAccount.AccountType getType();
 
     String getAccCode();
 

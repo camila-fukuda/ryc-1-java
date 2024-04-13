@@ -4,14 +4,14 @@ import java.util.Objects;
 
 public abstract class AbstractAccount implements Account {
 
-    final protected String type;
-    final protected String code;
-    final protected Customer customer;
+    protected final AccountType type;
+    protected final String code;
+    protected final Customer customer;
     private Branch branch;
     private double balance;
     private double limit;
 
-    public AbstractAccount(String type, String accCode, Branch branch, Customer customer, double balance, double limit) {
+    public AbstractAccount(AccountType type, String accCode, Branch branch, Customer customer, double balance, double limit) {
         validateCreation(type, accCode, customer, branch);
         this.type = type;
         this.code = accCode;
@@ -21,7 +21,7 @@ public abstract class AbstractAccount implements Account {
         this.limit = limit;
     }
 
-    public AbstractAccount(String type, String accCode, Customer customer, Branch branch) {
+    public AbstractAccount(AccountType type, String accCode, Branch branch, Customer customer) {
         validateCreation(type, accCode, customer, branch);
         this.type = type;
         this.code = accCode;
@@ -31,7 +31,7 @@ public abstract class AbstractAccount implements Account {
         this.limit = 0;
     }
 
-    private void validateCreation(String type, String accCode, Customer customer, Branch branch) {
+    private void validateCreation(AccountType type, String accCode, Customer customer, Branch branch) {
         if (branch == null) {
             throw new IllegalArgumentException("The branch is required.");
         }
@@ -66,7 +66,7 @@ public abstract class AbstractAccount implements Account {
         balance += amount;
     }
 
-    public String getType() {
+    public AccountType getType() {
         return type;
     }
 
@@ -117,6 +117,11 @@ public abstract class AbstractAccount implements Account {
 
     public void transactions() {
         System.out.println("transactions");
+    }
+
+    public enum AccountType {
+        BUSINESS,
+        PERSON
     }
 
 

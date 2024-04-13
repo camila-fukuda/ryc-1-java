@@ -18,17 +18,21 @@ Please note that the following list represents tasks I've prioritized for now, b
 over time. (LAST UPDATE:  2024-04-13)
 
 - [X] Improve the exception treatment in AccountServices when creating a Person Account;
+- [X] Add list of operations to README.md;
+- [X] Add 'Next Task' section to README.md;
+- [X] Add 'Points to Improve' section to README.md;
 - [ ] Create test classes;
 - [ ] Finish all person account actions;
 - [ ] Start the business account logic;
 
 ## Points to Improve
-Areas for Enhancement
 
-- Implement access restrictions to differentiate operations available to "employees" and those for customers exclusively.
-- Organize the menu into distinct sections for improved navigation: (Personal Account, Business Account, Customer, Branch).
+- Implement access restrictions to differentiate operations available to "employees" and those for customers
+  exclusively.
+- Organize the menu into distinct sections for improved navigation: (Personal Account, Business Account, Customer,
+  Branch).
 - Enhance document type validation to align with specific account types.
-    
+
 ## Usage
 
 To use the application, follow these steps:
@@ -49,33 +53,33 @@ This is a relation of banking operations that should be available. Some of them 
 ### Account Operations
 
 - For Accounts (person account or business account):
-    [X] Create account;
-    [X] List all accounts;
-    [ ] Find account by code;
-    [ ] Get limit;
-    [ ] Set limit;
-    [ ] Deposit an amount;
-    [ ] Withdraw amount;
-    [ ] Get balance;
-    [ ] Transfer amount to another account;
+    - [X] Create account;
+    - [X] List all accounts;
+    - [ ] Find account by code;
+    - [ ] Get limit;
+    - [ ] Set limit;
+    - [ ] Deposit an amount;
+    - [ ] Withdraw amount;
+    - [ ] Get balance;
+    - [ ] Transfer amount to another account;
 - For Business Account
-    [ ] Get loan limit;
-    [ ] Pay loan;
-    [ ] Get loan;
-    [ ] Set loan limit;
+    - [ ] Get loan limit;
+    - [ ] Pay loan;
+    - [ ] Get loan;
+    - [ ] Set loan limit;
 
 ### Customer Operations
 
-[X] Create customer;
-[X] List all customers;
-[X] Find customer by name;
-[X] Find by document;
+- [X] Create customer;
+- [X] List all customers;
+- [X] Find customer by name;
+- [X] Find by document;
 
 ### Branch Operations
 
-[X] Create branch;
-[X] List all branch;
-[X] Find branch by code;
+- [X] Create branch;
+- [X] List all branch;
+- [X] Find branch by code;
 
 ## Class Diagram
 

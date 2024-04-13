@@ -122,7 +122,7 @@ public class AccountServices {
                     Branch branch = BranchData.getBranch(branchCode);
                     Customer customer = CustomerData.getCustomerByDocument(customerDocument);
 
-                    PersonAccount newPersonAccount = new PersonAccount(code, customer, branch);
+                    PersonAccount newPersonAccount = new PersonAccount(code, branch, customer);
 
                     isDuplicate(newPersonAccount);
                     System.out.println("\nSUCCESS! New Person Account created! " + newPersonAccount);

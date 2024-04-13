@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class PersonAccount extends AbstractAccount {
     private static final Map<String, String> FIELD_LABEL_TO_NAME = new HashMap<>();
+    private static final AccountType type = AccountType.PERSON;
 
     static {
         FIELD_LABEL_TO_NAME.put("Branch Code", "branchCode");
@@ -12,11 +13,11 @@ public class PersonAccount extends AbstractAccount {
     }
 
     public PersonAccount(String accCode, Branch branch, Customer customer, double balance, double limit) {
-        super("Person Account", accCode, branch, customer, balance, limit);
+        super(type, accCode, branch, customer, balance, limit);
     }
 
-    public PersonAccount(String accCode, Customer customer, Branch branch) {
-        super("Person Account", accCode, customer, branch);
+    public PersonAccount(String accCode, Branch branch, Customer customer) {
+        super(type, accCode, branch, customer);
     }
 
     public static Map<String, String> getFieldLabelToName() {
