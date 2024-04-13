@@ -11,9 +11,9 @@ public class BranchServices {
     private static final Map<String, String> LABEL_TO_METHOD = new LinkedHashMap<>();
 
     static {
-        LABEL_TO_METHOD.put("List Branches", "listBranches");
-        LABEL_TO_METHOD.put("Create Branch", "createBranch");
-        LABEL_TO_METHOD.put("Find Branch by Code", "findBranchByCode");
+        LABEL_TO_METHOD.put("BRN - List Branches", "listBranches");
+        LABEL_TO_METHOD.put("BRN - Create Branch", "createBranch");
+        LABEL_TO_METHOD.put("BRN - Find Branch by Code", "findBranchByCode");
     }
 
     private static String getLabel(String value) {

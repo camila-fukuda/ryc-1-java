@@ -33,13 +33,13 @@ public abstract class AbstractAccount implements Account {
 
     private void validateCreation(String type, String accCode, Customer customer, Branch branch) {
         if (branch == null) {
-            throw new IllegalArgumentException("The branch is not valid.");
+            throw new IllegalArgumentException("The branch is required.");
         }
         if (customer == null) {
-            throw new IllegalArgumentException("The customer is not valid");
+            throw new IllegalArgumentException("The customer is required.");
         }
         if (accCode == null) {
-            throw new IllegalArgumentException("The account code is required");
+            throw new IllegalArgumentException("The code is required.");
         }
     }
 

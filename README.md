@@ -12,9 +12,20 @@ src/application/Main.java
 
 To run the application, you can execute the Main class.
 
+## Next Tasks
+
+Please note that the following list represents tasks I've prioritized for now, but it's not definitive and may evolve
+over time. (LAST UPDATE:  2024-04-13)
+
+- [X] Improve the exception treatment in AccountServices when creating a Person Account;
+- [ ] Create test classes;
+- [ ] Finish all person account actions;
+- [ ] Start the business account logic;
+
 ## Points to Improve
 
-- Some operations should be available only to "employees" and others to customers.
+- Some operations should be available only to "employees" and others to customers;
+- Separate the menu by sections (Person Account, Business Account, Customer, Branch);
 
 ## Usage
 
@@ -68,32 +79,32 @@ This is a relation of banking operations that should be available. Some of them 
 
 ```mermaid
 classDiagram
-    Account <|-- AccountAbstract : implements
+    Account <|-- AccountAbstract: implements
     AccountAbstract <|-- PersonAccount: Inheritance
     AccountAbstract <|-- BusinessAccount: Inheritance
-    Account --* Transaction : Composition
-    Branch --* Transaction : Composition
-    Account --* Branch : Composition
-    Account --* Customer : Composition
-    class Transaction{
-        -branch:Branch
-        -type:String
-        -value:Float
-        -dateTime:Instant
-        -account:Account
+    Account --* Transaction: Composition
+    Branch --* Transaction: Composition
+    Account --* Branch: Composition
+    Account --* Customer: Composition
+    class Transaction {
+        -branch: Branch
+        -type: String
+        -value: Float
+        -dateTime: Instant
+        -account: Account
     }
     class Customer {
-        -name:String
-        -document:String
-        +Customer(String,String)
+        -name: String
+        -document: String
+        +Customer(String, String)
     }
-    class Branch{
-        -city:String
-        -state:String
-        -code:String
-        +Branch(String,String,String)
+    class Branch {
+        -city: String
+        -state: String
+        -code: String
+        +Branch(String, String, String)
     }
-    class Account{
+    class Account {
         <<Interface>>
         -deposit()
         -withdraw()
@@ -105,20 +116,20 @@ classDiagram
         -getType()
         -setLimit()
     }
-    class AccountAbstract{
+    class AccountAbstract {
         <<Abstract>>
-        -number:Float
-        -branch:Branch
-        -customer:Customer
-        -balance:Float
-        -limit:Float
-        -type:String
+        -number: Float
+        -branch: Branch
+        -customer: Customer
+        -balance: Float
+        -limit: Float
+        -type: String
     }
-    class PersonAccount{
-        -type:String
+    class PersonAccount {
+        -type: String
     }
-    class BusinessAccount{
-        -type:String
+    class BusinessAccount {
+        -type: String
         -loanLimit
         +getLoanLimit()
         +payoff()

@@ -14,10 +14,10 @@ public class CustomerServices {
     private static final Map<String, String> LABEL_TO_METHOD = new LinkedHashMap<>();
 
     static {
-        LABEL_TO_METHOD.put("List Customers", "listCustomers");
-        LABEL_TO_METHOD.put("Create Customer", "createCustomer");
-        LABEL_TO_METHOD.put("Find Customer by Document", "findCustomerByDocument");
-        LABEL_TO_METHOD.put("Find Customer by Name", "findCustomerByName");
+        LABEL_TO_METHOD.put("CST - List Customers", "listCustomers");
+        LABEL_TO_METHOD.put("CST - Create Customer", "createCustomer");
+        LABEL_TO_METHOD.put("CST - Find Customer by Document", "findCustomerByDocument");
+        LABEL_TO_METHOD.put("CST - Find Customer by Name", "findCustomerByName");
     }
 
     private static void listCustomers() {
