@@ -23,10 +23,12 @@ over time. (LAST UPDATE:  2024-04-13)
 - [ ] Start the business account logic;
 
 ## Points to Improve
+Areas for Enhancement
 
-- Some operations should be available only to "employees" and others to customers;
-- Separate the menu by sections (Person Account, Business Account, Customer, Branch);
-
+- Implement access restrictions to differentiate operations available to "employees" and those for customers exclusively.
+- Organize the menu into distinct sections for improved navigation: (Personal Account, Business Account, Customer, Branch).
+- Enhance document type validation to align with specific account types.
+    
 ## Usage
 
 To use the application, follow these steps:
@@ -47,33 +49,33 @@ This is a relation of banking operations that should be available. Some of them 
 ### Account Operations
 
 - For Accounts (person account or business account):
-    - Create account;
-    - List all accounts;
-    - Find account by code;
-    - Get limit;
-    - Set limit;
-    - Deposit an amount;
-    - Withdraw amount;
-    - Get balance;
-    - Transfer amount to another account;
+    [X] Create account;
+    [X] List all accounts;
+    [ ] Find account by code;
+    [ ] Get limit;
+    [ ] Set limit;
+    [ ] Deposit an amount;
+    [ ] Withdraw amount;
+    [ ] Get balance;
+    [ ] Transfer amount to another account;
 - For Business Account
-    - Get loan limit;
-    - Pay loan;
-    - Get loan;
-    - Set loan limit;
+    [ ] Get loan limit;
+    [ ] Pay loan;
+    [ ] Get loan;
+    [ ] Set loan limit;
 
 ### Customer Operations
 
-- Create customer;
-- List all customers;
-- Find customer by name;
-- Find by document;
+[X] Create customer;
+[X] List all customers;
+[X] Find customer by name;
+[X] Find by document;
 
 ### Branch Operations
 
-- Create branch;
-- List all branch;
-- Find branch by code;
+[X] Create branch;
+[X] List all branch;
+[X] Find branch by code;
 
 ## Class Diagram
 
