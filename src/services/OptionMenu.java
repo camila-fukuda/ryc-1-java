@@ -2,15 +2,16 @@ package services;
 
 import exceptions.OptionMenuException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class OptionMenu {
     private final Scanner scanner;
+    private final List<String> actionsList;
 
-    public OptionMenu(Scanner scan) {
-        scanner = scan;
+    public OptionMenu(Scanner scan, List<String> actionsList) {
+        this.scanner = scan;
+        this.actionsList = actionsList;
 
     }
 
@@ -19,7 +20,6 @@ public class OptionMenu {
     }
 
     public void runMenu() {
-        List<String> actionsList = new ArrayList<>(Actions.getActionsList());
         System.out.println("\n----------------------------------");
         System.out.println("WELCOME TO THE BANKING SYSTEM!");
         System.out.println("----------------------------------\n");

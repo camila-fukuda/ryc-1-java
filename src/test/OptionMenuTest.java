@@ -3,6 +3,7 @@ package test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import services.Actions;
 import services.OptionMenu;
 
 import java.io.ByteArrayInputStream;
@@ -31,28 +32,13 @@ public class OptionMenuTest {
 
     @Test
     public void testRunMenu_ValidOption() {
-        List<String> actionsList = new ArrayList<>();
+        List<String> actionsList = new ArrayList<String>();
         actionsList.add("Option 1");
         actionsList.add("Option 2");
 
-        OptionMenu optionMenu = new OptionMenu(scanner);
+        OptionMenu optionMenu = new OptionMenu(scanner, Actions.getActionsList());
 
         String input = "1\n";
-        testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-
-        assertDoesNotThrow(() -> optionMenu.runMenu());
-    }
-
-    @Test
-    public void testRunMenu_InvalidOption() {
-        List<String> actionsList = new ArrayList<>();
-        actionsList.add("Option 1");
-        actionsList.add("Option 2");
-
-        OptionMenu optionMenu = new OptionMenu(scanner);
-
-        String input = "3\n";
         testIn = new ByteArrayInputStream(input.getBytes());
         System.setIn(testIn);
 

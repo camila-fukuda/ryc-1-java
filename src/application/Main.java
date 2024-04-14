@@ -1,8 +1,10 @@
 package application;
 
+import services.Actions;
 import services.InputManager;
 import services.OptionMenu;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
@@ -16,7 +18,8 @@ public class Main {
 
         boolean running = true;
         while (running) {
-            OptionMenu optionMenu = new OptionMenu(scanner);
+            List<String> actionsList = Actions.getActionsList();
+            OptionMenu optionMenu = new OptionMenu(scanner, actionsList);
             optionMenu.runMenu();
 
             String keepRunning = null;
@@ -28,18 +31,17 @@ public class Main {
                 if (!Objects.equals(keepRunning, "N") && !Objects.equals(keepRunning, "Y")) {
                     System.out.println("\nINVALID OPTION!");
                 } else if (keepRunning.equals("N")) {
-                    endRun();
+                    running = false;
+                    break;
                 }
             }
 
         }
 
-
-        scanner.close();
-    }
-
-    private static void endRun() {
         System.out.println("\nClosing the program...");
+        scanner.close();
         System.exit(0);
+
+
     }
 }

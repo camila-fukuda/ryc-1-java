@@ -21,6 +21,7 @@ over time. (LAST UPDATE:  2024-04-13)
 - [X] Add list of operations to README.md;
 - [X] Add 'Next Task' section to README.md;
 - [X] Add 'Points to Improve' section to README.md;
+- [ ] Add menu option to exit the program;
 - [ ] Create test classes;
 - [ ] Finish all person account actions;
 - [ ] Start the business account logic;
