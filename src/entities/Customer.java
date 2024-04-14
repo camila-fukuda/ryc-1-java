@@ -13,27 +13,28 @@ public record Customer(String name, String document) {
     }
 
     public Customer(String name, String document) {
-        this.name = name.toUpperCase();
-        this.document = document.toUpperCase();
+        this.name = name;
+        this.document = document;
     }
 
     public static Map<String, String> getFieldLabelToName() {
         return FIELD_LABEL_TO_NAME;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return Objects.equals(document(), customer.document());
+        return Objects.equals(document().toLowerCase(), customer.document().toLowerCase());
     }
 
     @Override
     public String toString() {
         return "Customer{" +
-                "name='" + name + '\'' +
-                ", document='" + document + '\'' +
+                "name='" + name.toUpperCase() + '\'' +
+                ", document='" + document.toUpperCase() + '\'' +
                 '}';
     }
 }

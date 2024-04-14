@@ -72,7 +72,7 @@ public class BranchServices {
 
         try {
             String code = userInput.get("Code");
-            Branch branch = BranchData.getBranch(code);
+            Branch branch = BranchData.getBranchByCode(code);
             if (branch != null) {
                 System.out.println("\nBRANCH FOUND:");
                 System.out.println(branch);
@@ -117,7 +117,7 @@ public class BranchServices {
 
     private static String getRandomCode() {
         String code = generateRandomCode();
-        while (BranchData.getBranch(code) != null) {
+        while (BranchData.getBranchByCode(code) != null) {
             code = generateRandomCode();
         }
         return code;

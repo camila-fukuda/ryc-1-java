@@ -9,9 +9,10 @@ public class BranchData {
     static public List<Branch> branches = new ArrayList<>();
 
     static {
-        branches.add(new Branch("BEBEDOURO", "SP", "BR-000001"));
-        branches.add(new Branch("TAIUVA", "SP", "BR-000002"));
-        branches.add(new Branch("UBERABA", "MG", "BR-000003"));
+        branches.add(new Branch("BEBEDOURO", "SP", "BR001"));
+        branches.add(new Branch("TAIUVA", "SP", "BR002"));
+        branches.add(new Branch("UBERABA", "MG", "BR003"));
+        branches.add(new Branch("BARRETOS", "SP", "BR004"));
     }
 
     static public List<Branch> getAll() {
@@ -22,9 +23,9 @@ public class BranchData {
         branches.add(branch);
     }
 
-    static public Branch getBranch(String code) {
+    static public Branch getBranchByCode(String code) {
         return branches.stream()
-                .filter(branch -> branch.code().equals(code))
+                .filter(branch -> branch.code().equalsIgnoreCase(code))
                 .findFirst()
                 .orElse(null);
     }

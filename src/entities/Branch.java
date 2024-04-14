@@ -39,7 +39,7 @@ public record Branch(String city, String state, String code) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Branch branch = (Branch) o;
-        return Objects.equals(state(), branch.state()) && Objects.equals(city(), branch.city());
+        return Objects.equals(state().toLowerCase(), branch.state().toLowerCase()) && Objects.equals(city().toLowerCase(), branch.city().toLowerCase());
     }
 
     @Override

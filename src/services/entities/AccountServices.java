@@ -20,9 +20,15 @@ public class AccountServices {
         LABEL_TO_METHOD.put("ACC - List Accounts", "listAccounts");
         LABEL_TO_METHOD.put("ACC - Find Account by Code", "findAccountByCode");
         LABEL_TO_METHOD.put("ACC - Create Account", "createAccount");
-//        LABEL_TO_METHOD.put("ACC - Find Account by Customer Name", "findAccountByName");
-//        LABEL_TO_METHOD.put("ACC - Deposit", "deposit");
-//        LABEL_TO_METHOD.put("ACC - Find Account by Customer Document", "findAccountByDocument");
+        LABEL_TO_METHOD.put("ACC - Find Accounts by Customer Name", "findAccountsByName");
+        LABEL_TO_METHOD.put("ACC - Find Accounts by Customer Document", "findAccountsByDocument");
+        LABEL_TO_METHOD.put("ACC - Deposit", "deposit");
+        LABEL_TO_METHOD.put("ACC - Withdraw", "withdraw");
+        LABEL_TO_METHOD.put("ACC - Get limit", "getLimit");
+        LABEL_TO_METHOD.put("ACC - Get balance", "getBalance");
+        LABEL_TO_METHOD.put("ACC - Set limit", "limit");
+        LABEL_TO_METHOD.put("ACC - Set balance", "setBalance");
+
     }
 
     public static List<String> getAvailableServices() {
@@ -46,7 +52,6 @@ public class AccountServices {
         return code;
     }
 
-
     private static String generateRandomCode(String type) {
         Random random = new Random();
         int randomNumber = random.nextInt(100000);
@@ -61,26 +66,6 @@ public class AccountServices {
         }
     }
 
-    private static void findAccountByCode() {
-        String actionLabel = getLabel("findAccountByCode");
-        Map<String, String> fieldLabelToName = Map.of("Code", "code");
-        Map<String, String> userInput;
-        userInput = InputManager.readInput(fieldLabelToName);
-
-        try {
-            String code = userInput.get("Code").toUpperCase();
-            Account account = AccountData.getAccount(code);
-            if (account != null) {
-                System.out.println("\nACCOUNT FOUND:");
-                System.out.println(account);
-            } else {
-                System.out.println("\nACCOUNT NOT FOUND!");
-            }
-        } catch (Exception e) {
-            System.out.println("An error happened while searching for the account.");
-            e.printStackTrace();
-        }
-    }
 
     static void deposit() {
         String actionLabel = getLabel("deposit");
@@ -119,7 +104,7 @@ public class AccountServices {
                     branchCode = userInput.get("Branch Code");
                     code = getRandomCode(accountType);
 
-                    Branch branch = BranchData.getBranch(branchCode);
+                    Branch branch = BranchData.getBranchByCode(branchCode);
                     Customer customer = CustomerData.getCustomerByDocument(customerDocument);
 
                     PersonAccount newPersonAccount = new PersonAccount(code, branch, customer);
@@ -179,6 +164,68 @@ public class AccountServices {
         } else {
             System.out.println("Action not found: " + actionLabel);
         }
+    }
+
+    private static void findAccountsByName() {
+        Map<String, String> userInput;
+        String customerName;
+        Map<String, String> fieldLabelToName = Map.of("Type the customer's name", "name");
+        userInput = InputManager.readInput(fieldLabelToName);
+        customerName = userInput.get("Type the customer's name");
+        System.out.println("\n");
+        System.out.println("----------------------------------");
+        System.out.println("Searching for Accounts from Customers with name " + customerName.toUpperCase() + " ...");
+        System.out.println("----------------------------------");
+        List<Customer> customer = CustomerData.getCustomerByName(customerName);
+        List<Account> accounts = AccountData.getAccountByCustomer(customer);
+        if (accounts.size() > 0) {
+            System.out.println("ACCOUNTS FOUND:");
+            System.out.println(accounts);
+        } else {
+            System.out.println("NO ACCOUNTS FOUND, check the name provided.");
+        }
+        System.out.println("----------------------------------");
+    }
+
+    private static void findAccountsByDocument() {
+        Map<String, String> userInput;
+        String customerDocument;
+        Map<String, String> fieldLabelToName = Map.of("Type the customer's document", "document");
+        userInput = InputManager.readInput(fieldLabelToName);
+        customerDocument = userInput.get("Type the customer's document");
+        System.out.println("\n");
+        System.out.println("----------------------------------");
+        System.out.println("Searching for Accounts from Customer with document " + customerDocument.toUpperCase() + " ...");
+        System.out.println("----------------------------------");
+        Customer customer = CustomerData.getCustomerByDocument(customerDocument);
+        List<Account> accounts = AccountData.getAccountByCustomer(customer);
+        if (accounts.size() > 0) {
+            System.out.println("ACCOUNTS FOUND:");
+            System.out.println(accounts);
+        } else {
+            System.out.println("NO ACCOUNTS FOUND, check the document provided.");
+        }
+        System.out.println("----------------------------------");
+    }
+
+    private static void findAccountByCode() {
+        Map<String, String> userInput;
+        String accCode;
+        Map<String, String> fieldLabelToName = Map.of("Type the Account's code", "code");
+        userInput = InputManager.readInput(fieldLabelToName);
+        accCode = userInput.get("Type the Account's code");
+        System.out.println("\n");
+        System.out.println("----------------------------------");
+        System.out.println("Searching for Account with code " + accCode.toUpperCase() + " ...");
+        System.out.println("----------------------------------");
+        Account account = AccountData.getAccount(accCode);
+        if (account != null) {
+            System.out.println("ACCOUNT FOUND:");
+            System.out.println(account);
+        } else {
+            System.out.println("NO ACCOUNT FOUND, check the code provided.");
+        }
+
     }
 
 }

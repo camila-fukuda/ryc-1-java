@@ -1,23 +1,20 @@
 package data;
 
-import entities.Account;
-import entities.Branch;
-import entities.Customer;
-import entities.PersonAccount;
+import entities.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AccountData {
     static public List<Account> accounts = new ArrayList<>();
 
     static {
-        BranchData.add(new Branch("BARRETOS", "SP", "BR-000006"));
-        CustomerData.add(new Customer("CAMILA", "105"));
-        Branch branch = BranchData.getBranch("BR-000006");
-        Customer customer = CustomerData.getCustomerByDocument("105");
+        Branch branch = BranchData.getBranchByCode("BR004");
+        Customer customer = CustomerData.getCustomerByDocument("DOC105");
 
-        accounts.add(new PersonAccount("ACP001", branch, customer));
+        accounts.add(new PersonAccount("ACP000", branch, customer));
+        accounts.add(new BusinessAccount("ACB000", branch, customer));
     }
 
     static public List<Account> getAll() {
@@ -35,21 +32,15 @@ public class AccountData {
                 .orElse(null);
     }
 
-//    static public boolean containsCode(String code) {
-//        for (Account account : accounts) {
-//            if (account.getCode().equals(code)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    static public List<Account> getAccountByCustomer(Customer customer) {
+        return accounts.stream()
+                .filter(acc -> acc.getCustomer().equals(customer)).collect(Collectors.toList());
 
-//    public static boolean containsEqual(Account newAccount) {
-//        for (Account branch : accounts) {
-//            if (branch.equals(newAccount)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    }
+
+    static public List<Account> getAccountByCustomer(List<Customer> customers) {
+        return accounts.stream()
+                .filter(acc -> customers.stream().anyMatch(customer -> customer.equals(acc.getCustomer())))
+                .collect(Collectors.toList());
+    }
 }

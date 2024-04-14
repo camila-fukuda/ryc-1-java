@@ -10,10 +10,11 @@ public class CustomerData {
     static public List<Customer> customers = new ArrayList<>();
 
     static {
-        customers.add(new Customer("JOAO", "101"));
-        customers.add(new Customer("MARIA", "102"));
-        customers.add(new Customer("PEDRO", "103"));
-        customers.add(new Customer("MARIA", "104"));
+        customers.add(new Customer("JOAO", "DOC101"));
+        customers.add(new Customer("MARIA", "DOC102"));
+        customers.add(new Customer("PEDRO", "DOC103"));
+        customers.add(new Customer("MARIA", "DOC104"));
+        customers.add(new Customer("CAMILA", "DOC105"));
     }
 
 
@@ -27,13 +28,13 @@ public class CustomerData {
 
     static public List<Customer> getCustomerByName(String name) {
         return customers.stream()
-                .filter(customer -> customer.name().equals(name))
+                .filter(customer -> customer.name().equalsIgnoreCase(name))
                 .collect(Collectors.toList());
     }
 
     static public Customer getCustomerByDocument(String document) {
         return customers.stream()
-                .filter(customer -> customer.document().equals(document))
+                .filter(customer -> customer.document().equalsIgnoreCase(document))
                 .findFirst()
                 .orElse(null);
     }
