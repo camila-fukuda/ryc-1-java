@@ -43,16 +43,6 @@ public abstract class AbstractAccount implements Account {
         }
     }
 
-    @Override
-    public String toString() {
-        return "AbstractAccount{" +
-                "type='" + type + '\'' +
-                ", accCode='" + code + '\'' +
-                ", customer=" + customer +
-                ", branch=" + branch +
-                '}';
-    }
-
     public void withdraw(double amount) {
         if (amount <= balance + limit) {
             balance -= amount;
@@ -105,6 +95,17 @@ public abstract class AbstractAccount implements Account {
     @Override
     public int hashCode() {
         return Objects.hash(getType(), getCustomer());
+    }
+
+    @Override
+    public String toString() {
+        return type +
+                " ACCOUNT - {Code:" + code +
+                " | " + customer +
+                " | " + branch +
+                " | Balance: " + balance +
+                " | Limit: " + limit +
+                '}';
     }
 
     public double getLimit() {

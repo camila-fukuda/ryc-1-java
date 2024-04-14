@@ -24,7 +24,7 @@ public class BranchData {
 
     static public Branch getBranch(String code) {
         return branches.stream()
-                .filter(branch -> branch.getCode().equals(code))
+                .filter(branch -> branch.code().equals(code))
                 .findFirst()
                 .orElse(null);
     }

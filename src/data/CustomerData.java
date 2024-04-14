@@ -27,13 +27,13 @@ public class CustomerData {
 
     static public List<Customer> getCustomerByName(String name) {
         return customers.stream()
-                .filter(customer -> customer.getName().equals(name))
+                .filter(customer -> customer.name().equals(name))
                 .collect(Collectors.toList());
     }
 
     static public Customer getCustomerByDocument(String document) {
         return customers.stream()
-                .filter(customer -> customer.getDocument().equals(document))
+                .filter(customer -> customer.document().equals(document))
                 .findFirst()
                 .orElse(null);
     }

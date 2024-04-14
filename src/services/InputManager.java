@@ -19,11 +19,9 @@ public class InputManager {
 
         for (Map.Entry<String, String> entry : labelMap.entrySet()) {
             System.out.println("-> Enter value for " + entry.getKey() + ":");
-            userInput.put(entry.getKey(), scanner.nextLine());
+            userInput.put(entry.getKey(), scanner.nextLine().trim());
         }
 
         return userInput;
     }
-
-
 }

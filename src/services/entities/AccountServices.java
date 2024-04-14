@@ -50,7 +50,7 @@ public class AccountServices {
     private static String generateRandomCode(String type) {
         Random random = new Random();
         int randomNumber = random.nextInt(100000);
-        return type + "ACC-" + String.format("%05d", randomNumber);
+        return "ACC" + type.substring(0, 1).toUpperCase() + String.format("%05d", randomNumber);
     }
 
     private static void isDuplicate(PersonAccount newAcc) {
