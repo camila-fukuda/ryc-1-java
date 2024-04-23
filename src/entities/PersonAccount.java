@@ -16,6 +16,10 @@ public class PersonAccount extends AbstractAccount {
         super(type, accCode, branch, customer, balance, limit);
     }
 
+    public PersonAccount(String accCode, Branch branch, Customer customer, double balance) {
+        super(type, accCode, branch, customer, balance, balance);
+    }
+
     public PersonAccount(String accCode, Branch branch, Customer customer) {
         super(type, accCode, branch, customer);
     }

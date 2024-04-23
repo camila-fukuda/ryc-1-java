@@ -1,12 +1,14 @@
 package entities;
 
+import exceptions.InsufficientFundsException;
+
 import java.util.Objects;
 
 public abstract class AbstractAccount implements Account {
 
-    protected final AccountType type;
-    protected final String code;
-    protected final Customer customer;
+    protected AccountType type;
+    protected String code;
+    protected Customer customer;
     private Branch branch;
     private double balance;
     private double limit;
@@ -31,6 +33,16 @@ public abstract class AbstractAccount implements Account {
         this.limit = 0;
     }
 
+    public AbstractAccount(AccountType type, String accCode, Branch branch, Customer customer, double balance) {
+        validateCreation(type, accCode, customer, branch);
+        this.type = type;
+        this.code = accCode;
+        this.branch = branch;
+        this.customer = customer;
+        this.balance = balance;
+        this.limit = 0;
+    }
+
     private void validateCreation(AccountType type, String accCode, Customer customer, Branch branch) {
         if (branch == null) {
             throw new IllegalArgumentException("The branch is required.");
@@ -47,7 +59,7 @@ public abstract class AbstractAccount implements Account {
         if (amount <= balance + limit) {
             balance -= amount;
         } else {
-            System.out.print("ERROR: no limit.");
+            throw new InsufficientFundsException("The balance and limit are not sufficient.");
         }
 
     }
@@ -112,8 +124,12 @@ public abstract class AbstractAccount implements Account {
         return limit;
     }
 
-    public void setLimit(double amount) {
-        limit = amount;
+    public void setLimit(double newLimit) {
+        if (-newLimit > balance) {
+            throw new InsufficientFundsException("The balance and limit are not sufficient.");
+        } else {
+            limit = newLimit;
+        }
     }
 
     public void transactions() {

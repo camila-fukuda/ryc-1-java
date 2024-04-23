@@ -1,4 +1,4 @@
-package test;
+package test.entities;
 
 import entities.AbstractAccount;
 import entities.Branch;

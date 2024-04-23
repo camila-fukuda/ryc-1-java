@@ -13,8 +13,8 @@ public class AccountData {
         Branch branch = BranchData.getBranchByCode("BR004");
         Customer customer = CustomerData.getCustomerByDocument("DOC105");
 
-        accounts.add(new PersonAccount("ACP000", branch, customer));
-        accounts.add(new BusinessAccount("ACB000", branch, customer));
+        accounts.add(new PersonAccount("ACP000", branch, customer, 1000.50));
+        accounts.add(new BusinessAccount("ACB000", branch, customer, 2000.50));
     }
 
     static public List<Account> getAll() {
@@ -27,7 +27,7 @@ public class AccountData {
 
     static public Account getAccount(String code) {
         return accounts.stream()
-                .filter(acc -> acc.getCode().equals(code))
+                .filter(acc -> acc.getCode().equalsIgnoreCase(code))
                 .findFirst()
                 .orElse(null);
     }

@@ -3,13 +3,13 @@ package services.entities;
 import data.AccountData;
 import data.BranchData;
 import data.CustomerData;
-import entities.Account;
-import entities.Branch;
-import entities.Customer;
-import entities.PersonAccount;
+import data.TransactionData;
+import entities.*;
+import exceptions.InsufficientFundsException;
 import services.InputManager;
 
 import java.lang.reflect.Method;
+import java.time.Instant;
 import java.util.*;
 
 public class AccountServices {
@@ -26,8 +26,9 @@ public class AccountServices {
         LABEL_TO_METHOD.put("ACC - Withdraw", "withdraw");
         LABEL_TO_METHOD.put("ACC - Get limit", "getLimit");
         LABEL_TO_METHOD.put("ACC - Get balance", "getBalance");
-        LABEL_TO_METHOD.put("ACC - Set limit", "limit");
-        LABEL_TO_METHOD.put("ACC - Set balance", "setBalance");
+        LABEL_TO_METHOD.put("ACC - Set limit", "setLimit");
+        LABEL_TO_METHOD.put("ACC - Transfer to another Account", "transfer");
+        LABEL_TO_METHOD.put("ACC - Transactions by Account", "transactionsByAccount");
 
     }
 
@@ -66,12 +67,226 @@ public class AccountServices {
         }
     }
 
+    static void transfer() {
+        String actionLabel = getLabel("transfer");
+        String fromAccount = "FROM Account CODE";
+        String howMuch = "Amount to transfer";
+        String toAccount = "TO Account Code";
+        Account accountTransferring;
+        Account accountReceiving;
+        Double amount;
+
+        Map<String, String> fieldLabelToName = Map.of(fromAccount, "from", howMuch, "amount", toAccount, "to");
+        Map<String, String> userInput;
+
+        userInput = InputManager.readInput(fieldLabelToName);
+        fromAccount = userInput.get(fromAccount);
+        amount = Double.valueOf(userInput.get(howMuch));
+        toAccount = userInput.get(toAccount);
+        accountTransferring = AccountData.getAccount(fromAccount);
+        accountReceiving = AccountData.getAccount(toAccount);
+        double accountTransferringOldBalance;
+        double accReceivingOldBalance;
+
+        if (accountTransferring == null) {
+            System.out.println("The code provided for the account to transfer the amount from does not exist. Please check and try again.");
+            System.out.println("----------------------------------");
+        }
+
+        if (accountReceiving == null) {
+            System.out.println("The code provided for the account receiving the amount does not exist. Please check and try again.");
+            System.out.println("----------------------------------");
+        }
+
+        if (accountReceiving != null && accountTransferring != null) {
+
+            try {
+                accountTransferringOldBalance = accountTransferring.getBalance();
+                accReceivingOldBalance = accountReceiving.getBalance();
+                accountTransferring.withdraw(amount);
+                accountReceiving.deposit(amount);
+
+                Transaction transDeposit = new Transaction(Transaction.TransactionType.TRANSFER_DEPOSIT, amount, accountReceiving, Instant.now());
+                Transaction transWithdraw = new Transaction(Transaction.TransactionType.TRANSFER_WITHDRAW, amount, accountTransferring, Instant.now());
+                TransactionData.add(transDeposit);
+                TransactionData.add(transWithdraw);
+                System.out.println("----");
+                System.out.println("The transference was SUCCESSFUL!");
+                System.out.println("The balance for the account " + accountTransferring.getCode() + " is: " + accountTransferring.getBalance());
+                System.out.println("The balance for the account " + accountReceiving.getCode() + " is: " + accountReceiving.getBalance());
+
+            } catch (InsufficientFundsException e) {
+                System.out.println("ERROR - Insufficient Funds!");
+                System.out.println("The account " + accountTransferring.getAccCode() + " does not have the limit/balance to transfer the amount.");
+            } catch (Exception e) {
+                accountTransferring.setBalance(amount);
+                accountReceiving.setBalance(amount);
+                System.out.println("UNEXPECTED PROBLEM, the transfer was not completed: " + e);
+                throw e;
+            }
+        }
+
+    }
+
+    static void transactionsByAccount() {
+        Map<String, String> fieldLabelToName = Map.of("Account Code", "accCode");
+        Map<String, String> userInput;
+
+        userInput = InputManager.readInput(fieldLabelToName);
+
+        try {
+            String code = userInput.get("Account Code").toUpperCase();
+            Account acc = AccountData.getAccount(code);
+            List<Transaction> transactions = TransactionData.getTransactionByAccount(acc);
+            if (transactions.isEmpty()) {
+                System.out.println("\nNo transactions found!");
+            } else {
+                System.out.println("\nTRANSACTIONS:");
+                transactions.stream().forEach(System.out::println);
+            }
+        } catch (Exception e) {
+            System.out.println("An error happened while searching for the customer.");
+            e.printStackTrace();
+        }
+    }
+
+    static void setLimit() {
+        String actionLabel = getLabel("setLimit");
+        String howMuch = "How much is the new limit";
+        String toWhichAccount = "Account Code";
+        Map<String, String> fieldLabelToName = Map.of(howMuch, "amount", toWhichAccount, "code");
+        Map<String, String> userInput;
+        Double amount;
+        Double oldLimit;
+        String accountCode;
+
+        userInput = InputManager.readInput(fieldLabelToName);
+        accountCode = userInput.get(toWhichAccount);
+        amount = Double.valueOf(userInput.get(howMuch));
+        Account acc = AccountData.getAccount(accountCode);
+
+        if (acc != null) {
+            System.out.println();
+            oldLimit = acc.getLimit();
+            try {
+                acc.setLimit(amount);
+                System.out.println("The new limit is: " + acc.getLimit());
+
+            } catch (InsufficientFundsException e) {
+                System.out.println("ERROR - Insufficient Funds!");
+                System.out.println("The limit is not sufficient for the current account's balance: " + acc.getBalance() + ".");
+            } catch (Exception e) {
+                acc.setBalance(oldLimit);
+                System.out.println("UNEXPECTED PROBLEM: " + e);
+                throw e;
+            }
+        } else {
+            System.out.println("NO ACCOUNTS FOUND for the code provided, check and try again.");
+        }
+        System.out.println("----------------------------------");
+    }
+
+    static void getBalance() {
+        Map<String, String> userInput;
+        String accCode;
+        Map<String, String> fieldLabelToName = Map.of("Type the Account's code", "code");
+        userInput = InputManager.readInput(fieldLabelToName);
+        accCode = userInput.get("Type the Account's code");
+        System.out.println("\n");
+        Account account = AccountData.getAccount(accCode);
+        if (account != null) {
+            System.out.println("ACCOUNT FOUND!");
+            System.out.println("The balance for the account " + account.getCode() + " is: " + account.getBalance());
+            System.out.println(account);
+        } else {
+            System.out.println("NO ACCOUNT FOUND, check the code provided.");
+        }
+    }
+
+    static void getLimit() {
+        Map<String, String> userInput;
+        String accCode;
+        Map<String, String> fieldLabelToName = Map.of("Type the Account's code", "code");
+        userInput = InputManager.readInput(fieldLabelToName);
+        accCode = userInput.get("Type the Account's code");
+        System.out.println("\n");
+        Account account = AccountData.getAccount(accCode);
+        if (account != null) {
+            System.out.println("ACCOUNT FOUND!");
+            System.out.println("The limit for the account " + account.getCode() + " is: " + account.getLimit());
+            System.out.println(account);
+        } else {
+            System.out.println("NO ACCOUNT FOUND, check the code provided.");
+        }
+    }
+
+    static void withdraw() {
+        String actionLabel = getLabel("deposit");
+        String howMuch = "How much do you want to withdraw";
+        String toWhichAccount = "Account Code";
+        Map<String, String> fieldLabelToName = Map.of(howMuch, "amount", toWhichAccount, "code");
+        Map<String, String> userInput;
+        Double amount;
+        Double oldBalance;
+        String accountCode;
+
+        userInput = InputManager.readInput(fieldLabelToName);
+        accountCode = userInput.get(toWhichAccount);
+        amount = Double.valueOf(userInput.get(howMuch));
+        Account acc = AccountData.getAccount(accountCode);
+
+        if (acc != null) {
+            System.out.println();
+            oldBalance = acc.getBalance();
+            try {
+                acc.withdraw(amount);
+                System.out.println("WITHDRAW SUCCESS. The new balance is: " + acc.getBalance());
+
+            } catch (InsufficientFundsException e) {
+                acc.setBalance(oldBalance);
+                System.out.println("ERROR - Insufficient Funds!");
+                System.out.println("The current limit for the account is: " + acc.getLimit() + " and the balance is: " + acc.getBalance());
+            } catch (Exception e) {
+                acc.setBalance(oldBalance);
+                System.out.println("UNEXPECTED PROBLEM: " + e);
+                throw e;
+            }
+        } else {
+            System.out.println("NO ACCOUNTS FOUND for the code provided, check and try again.");
+        }
+        System.out.println("----------------------------------");
+    }
 
     static void deposit() {
         String actionLabel = getLabel("deposit");
-        Map<String, String> fieldLabelToName = Map.of("Type (P - Person Account) / (B - Business Account)", "Type");
+        String howMuch = "How much do you want to deposit";
+        String toWhichAccount = "Account Code";
+        Map<String, String> fieldLabelToName = Map.of(howMuch, "amount", toWhichAccount, "code");
         Map<String, String> userInput;
-        String accountType;
+        Double amount;
+        Double oldBalance;
+        String accountCode;
+
+        userInput = InputManager.readInput(fieldLabelToName);
+        accountCode = userInput.get(toWhichAccount);
+        amount = Double.valueOf(userInput.get(howMuch));
+        Account acc = AccountData.getAccount(accountCode);
+
+        if (acc != null) {
+            oldBalance = acc.getBalance();
+            try {
+                acc.deposit(amount);
+                System.out.println("DEPOSIT SUCCESS. The new balance is: " + acc.getBalance());
+
+            } catch (Exception e) {
+                acc.setBalance(oldBalance);
+                System.out.println("UNEXPECTED PROBLEM: " + e);
+                throw e;
+            }
+        } else {
+            System.out.println("NO ACCOUNTS FOUND for the code provided, check and try again.");
+        }
+        System.out.println("----------------------------------");
     }
 
     static void createAccount() {

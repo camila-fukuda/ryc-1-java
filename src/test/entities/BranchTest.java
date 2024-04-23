@@ -1,4 +1,4 @@
-package test;
+package test.entities;
 
 import entities.Branch;
 import org.junit.jupiter.api.Test;
